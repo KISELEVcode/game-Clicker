@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,40 @@
   <title>Clicker</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  
+  <header class="header">
+    <h1 class="title">Clicker</h1>
+  </header>
+  <main>
+    <div class="container">
+      <div class="game">
+        <div class="game_score">
+          <p class="info">Score:<span class="value score">00</span></p>
+          <p class="info">Best score:<span class="value best_score">00</span></p>
+        </div>
+
+        <div class="game_timer">
+          <div class="timer">
+            <p class="info">Time:<span class="value--time time"></span></p>
+          <button class="btn__time btn__time--minus">-5</button>
+          <button class="btn__time btn__time--plus">+5</button>
+          </div>
+          
+          <button class="btn__start">Start</button>
+        </div>
+
+        <div class="game_field"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="copyright">&copy; Created by <a href="http://kiselevcode.github.io" target="_blank"
+        class="copyright_link">Alexey Kiselev</a> in 2019.</p>
+  </footer>
+
   <script src="js/app.js"></script>
 </body>
+
 </html>
