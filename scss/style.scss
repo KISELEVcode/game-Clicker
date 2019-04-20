@@ -12,6 +12,7 @@ body {
 }
 
 body {
+  position: relative;
   min-width: 320px;
   display: flex;
   flex-direction: column;
@@ -70,7 +71,7 @@ body {
   border: 1px solid red;
 }
 
-.btn__start {
+.btn {
   padding: 10px 20px;
   text-transform: uppercase;
   cursor: pointer;
@@ -87,6 +88,14 @@ body {
 .shape {
   position: absolute;
   cursor: pointer;
+}
+
+.modal {
+  display: none;
+}
+
+.show {
+  display: block;
 }
 
 .copyright {

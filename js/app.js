@@ -1,30 +1,32 @@
 const gameField = document.querySelector('.game_field');
-const statTime = document.querySelector('.time');
-const statScore = document.querySelector('.score');
-const statBestScore = document.querySelector('.best_score');
+const htmlTime = document.querySelector('.time');
+const htmlScore = document.querySelector('.score');
+const htmlBestScore = document.querySelector('.best_score');
 const btnMinus = document.querySelector('.btn__time--minus');
 const btnPlus = document.querySelector('.btn__time--plus');
 const btnStart = document.querySelector('.btn__start');
 let score = 0;
 let bestScore = 0;
 let time = 15;
+let startTime;
 
-addZero(time, statTime);
+addZero(time, htmlTime);
 
 btnStart.addEventListener('click', startGame);
 btnMinus.addEventListener('click', () => {
   time = time - 5;
-  addZero(time, statTime);
+  addZero(time, htmlTime);
   checkBtnDisabled();
 });
 btnPlus.addEventListener('click', () => {
   time = time + 5;
-  addZero(time, statTime);
+  addZero(time, htmlTime);
   checkBtnDisabled();
 });
 gameField.addEventListener('click', handleFigureClick);
 
 function startGame() {
+  startTime = new Date();
   btnStart.setAttribute('disabled', 'disabled');
   btnPlus.setAttribute('disabled', 'disabled');
   btnMinus.setAttribute('disabled', 'disabled');
@@ -34,10 +36,9 @@ function startGame() {
 
 function handleFigureClick(e) {
   if (e.target.classList.contains('shape') && time > 0) {
-    
     renderFigure();
     score++;
-    addZero(score, statScore);
+    addZero(score, htmlScore);
   }
 }
 
@@ -72,12 +73,14 @@ function renderFigure() {
 }
 
 function startTimer() {
-  let tik = setInterval(() => {
-    time--;
-    addZero(time, statTime);
+  const timer = setInterval(() => {
+    const currentTime = new Date();
+    const timeDifference = Math.floor((currentTime - startTime) / 1000);
+    const timeLeft = time - timeDifference;
+    addZero(timeLeft, htmlTime);
 
-    if (time < 1) {
-      clearInterval(tik);
+    if (timeDifference >= time) {
+      clearInterval(timer);
       endGame();
     }
   }, 1000);
@@ -85,14 +88,24 @@ function startTimer() {
 
 function endGame() {
   checkScore();
+  modal();
   time = 15;
   score = 0;
-  statScore.innerHTML = '00';
-  statTime.innerHTML = time;
+  htmlScore.innerHTML = '00';
+  htmlTime.innerHTML = time;
   gameField.innerHTML = '';
   btnStart.removeAttribute('disabled');
   btnPlus.removeAttribute('disabled');
   btnMinus.removeAttribute('disabled');
+}
+
+function modal() {
+  const modal = document.querySelector('.modal');
+  const btnClose = document.querySelector('.btn__close');
+  modal.classList.add('show');
+  btnClose.addEventListener('click', () => {
+    modal.classList.remove('show')
+  });
 }
 
 function randomNumber(min, max) {
@@ -117,15 +130,18 @@ function checkBtnDisabled() {
     btnMinus.removeAttribute('disabled');
   } else if (time >= 30) {
     btnPlus.setAttribute('disabled', 'disabled');
-
   } else if (time <= 10) {
     btnMinus.setAttribute('disabled', 'disabled');
   }
 }
 
 function checkScore() {
+  const modalText = document.querySelector('.modal__text');
   if (score > bestScore) {
     bestScore = score;
-    addZero(bestScore, statBestScore)
+    addZero(bestScore, htmlBestScore);
+    modalText.innerHTML = `Your new record ${score}`;
+  } else {
+    modalText.innerHTML = `Your score ${score}`;
   }
 }
